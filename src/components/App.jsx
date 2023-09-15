@@ -12,7 +12,7 @@ class App extends Component {
 
   componentDidUpdate(_, prevState) {
     prevState.searchQuery !== this.state.searchQuery && this.fetchPhoto();
-    console.log('this.state.photo', this.state.photos);
+    // console.log('this.state.photo', this.state.photos);
   }
 
   fetchPhoto = async () => {
