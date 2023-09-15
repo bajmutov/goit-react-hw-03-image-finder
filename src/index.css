@@ -26,6 +26,10 @@ h6 {
   margin-top: 20px;
 }
 
+ul {
+  list-style-type: none;
+}
+
 #root {
   padding: 20px;
   /* text-align: center; */

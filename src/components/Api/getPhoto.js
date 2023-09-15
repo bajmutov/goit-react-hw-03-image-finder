@@ -21,6 +21,6 @@ export const getPhotoBySearch = async query => {
   });
 
   const response = await axios(`${BASE_URL}?${searchParams}`);
-  //   console.log(response.data);
+  console.log(response.data);
   return response.data;
 };
