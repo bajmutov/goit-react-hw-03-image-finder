@@ -1,76 +1,49 @@
 import { Component } from 'react';
-import { nanoid } from 'nanoid';
-import ContactForm from './ContactForm/ContactForm';
-import Filter from './Filter/Filter';
-import ContactList from './ContactList/ContactList';
-import initialContacts from './initialContacts.json';
-
-const KEY_CONTACTS = 'contacts';
+import Searchbar from './Searchbar/Searchbar';
+import { getPhotoBySearch } from './Api/getPhoto';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 
 class App extends Component {
-  state = {
-    contacts: initialContacts,
-    filter: '',
+  state = { isLoading: false, error: '', photos: null, searchQuery: '' };
+
+  handleSetSearchQuery = value => {
+    this.setState({ searchQuery: value });
   };
 
-componentDidMount(){
-const localData = JSON.parse(localStorage.getItem(KEY_CONTACTS))
-if(localData.length) this.setState({contacts: localData})
-}
+  componentDidUpdate(_, prevState) {
+    prevState.searchQuery !== this.state.searchQuery && this.fetchPhoto();
+    // console.log('this.state.photo', this.state.photos);
+  }
 
-componentDidUpdate(_,prevState){
-if(prevState.contacts.length !== this.state.contacts.length){
-  localStorage.setItem(KEY_CONTACTS, JSON.stringify(this.state.contacts))
-}
-}
+  fetchPhoto = async () => {
+    const data = await getPhotoBySearch(this.state.searchQuery);
+    this.setState({ photos: data.hits });
 
-  addContact = data => {
-    const isAlreadyExist = this.state.contacts.find(
-      el => el.name === data.name
-    );
-    if (isAlreadyExist) return alert(`${data.name} is already in contacts`);
-
-    console.log('data', this.state);
-    const newUser = {
-      id: nanoid(),
-      ...data,
-    };
-    this.setState(({ contacts }) => ({
-      contacts: [newUser, ...contacts],
-    }));
-  };
-
-  changeFilter = e => {
-    console.log('this.state', this.state);
-    this.setState({ filter: e.currentTarget.value });
-  };
-
-  getVisibleContact = () => {
-    const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLowerCase().trim();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  handleDelete = id => {
-    this.setState(prev => ({
-      contacts: prev.contacts.filter(el => el.id !== id),
-    }));
+    try {
+      this.setState({ isLoading: true, photos: null });
+      const data = await getPhotoBySearch(this.state.searchQuery);
+      this.setState({ photos: data.hits });
+    } catch (error) {
+      this.setState({ error: error.response.data });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   render() {
+    const { error, isLoading, photos } = this.state;
     return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm addContact={this.addContact} />
-        <h2>Contacts</h2>
-        <Filter changeFilter={this.changeFilter} value={this.state.filter} />
-        <ContactList
-          userContacts={this.getVisibleContact()}
-          handleDelete={this.handleDelete}
-        />
-      </div>
+      <>
+        {error && <h1>{error}</h1>}
+        <Searchbar submit={this.handleSetSearchQuery} />
+        {isLoading && <h1>Loading...</h1>}
+        {photos &&
+          (!photos.length ? (
+            <h1>No data found</h1>
+          ) : (
+            <ImageGallery photos={photos} />
+          ))}
+      </>
     );
   }
 }
