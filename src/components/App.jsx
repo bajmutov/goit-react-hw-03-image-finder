@@ -17,7 +17,7 @@ class App extends Component {
     searchQuery: '',
     totalPages: null,
     isShowButton: true,
-    showModal: true,
+    showModal: false,
   };
 
   handleSetSearchQuery = value => {
@@ -26,7 +26,7 @@ class App extends Component {
 
   componentDidUpdate(_, prevState) {
     prevState.searchQuery !== this.state.searchQuery && this.fetchPhoto();
-    console.log('this.state.photo', this.state);
+    // console.log('this.state.photo', this.state);
   }
 
   fetchPhoto = async () => {
@@ -34,9 +34,7 @@ class App extends Component {
       this.setState({ isLoading: true, isShowButton: true });
       newsApiService.resetPage();
       newsApiService.query = this.state.searchQuery;
-      const data = await newsApiService.getPhotoBySearch(
-        this.state.searchQuery
-      );
+      const data = await newsApiService.getPhotoBySearch();
       this.setState({ photos: data.hits, totalPages: data.totalHits });
     } catch (error) {
       this.setState({ error: error.response.data });
@@ -56,7 +54,7 @@ class App extends Component {
         return { photos: [...prev.photos, ...data.hits] };
       });
       this.checkTotalImages();
-      console.log('this.state', this.state);
+      // console.log('this.state', this.state);
     } catch (error) {
       this.setState({ error: error.response.data });
     } finally {
@@ -73,11 +71,6 @@ class App extends Component {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
-  };
-
-  handlePressESC = e => {
-    console.log('object :>> ', Date.now());
-    if (e.code === 'Escape') this.props.closeModal();
   };
 
   render() {
@@ -98,11 +91,8 @@ class App extends Component {
         {photos && photos.length > 0 && !isLoading && isShowButton && (
           <Button loadmore={this.loadMore} showButton={this.state.isLoading} />
         )}
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            {/* <ImageGallery photos={photos} /> */}
-            <h1>Modalka</h1>
-          </Modal>
+        {showModal && photos && (
+          <Modal onClose={this.toggleModal} photos={photos} />
         )}
         <button type="button" className="IconButton" onClick={this.toggleModal}>
           модал

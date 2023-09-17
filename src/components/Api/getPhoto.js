@@ -13,7 +13,7 @@ export class PixabayAPI {
     this.safeSearchAge = true;
   }
 
-  getPhotoBySearch = async q => {
+  getPhotoBySearch = async () => {
     const searchParams = new URLSearchParams({
       key: this.#API_KEY,
       q: this.searchQuery,
@@ -40,7 +40,6 @@ export class PixabayAPI {
   resetPage() {
     this.page = 1;
   }
-
 
   get query() {
     return this.searchQuery;
