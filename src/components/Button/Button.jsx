@@ -1,8 +1,10 @@
+import css from './Button.module.css';
+
 export const Button = ({ loadmore, showButton }) => {
   return (
     <button
       type="button"
-      className="btn"
+      className={css.Button}
       onClick={loadmore}
       disabled={showButton}
     >

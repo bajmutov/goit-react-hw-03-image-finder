@@ -1,13 +1,6 @@
-// const ImageGalleryItem = ({ onClose, photo: { id, tags, webformatURL } }) => {
-//   return (
-//     <li className="gallery-item">
-//       <img src={webformatURL} alt={tags} onClick={onClose} data-id={id} />
-//     </li>
-//   );
-// };
-
 import Modal from 'components/Modal/Modal';
 import { Component } from 'react';
+import css from './ImageGalleryItem.module.css';
 
 class ImageGalleryItem extends Component {
   state = {
@@ -25,8 +18,13 @@ class ImageGalleryItem extends Component {
     const { showModal } = this.state;
     return (
       <>
-        <li className="gallery-item">
-          <img src={webformatURL} alt={tags} onClick={this.toggleModal} />
+        <li className={css.ImageGalleryItem}>
+          <img
+            className={css['ImageGalleryItem-image']}
+            src={webformatURL}
+            alt={tags}
+            onClick={this.toggleModal}
+          />
           {showModal && (
             <Modal
               onClose={this.toggleModal}

@@ -4,8 +4,6 @@ import { PixabayAPI } from './Api/getPhoto';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
-import Modal from './Modal/Modal';
-import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 
 const newsApiService = new PixabayAPI();
 
@@ -17,7 +15,6 @@ class App extends Component {
     searchQuery: '',
     totalPages: null,
     isShowButton: true,
-    showModal: false,
   };
 
   handleSetSearchQuery = value => {
@@ -37,6 +34,7 @@ class App extends Component {
       const data = await newsApiService.getPhotoBySearch();
       this.setState({ photos: data.hits, totalPages: data.totalHits });
     } catch (error) {
+      // console.log('error', error.message);
       this.setState({ error: error.response.data });
     } finally {
       this.setState({ isLoading: false });
@@ -67,12 +65,6 @@ class App extends Component {
     if (this.state.totalPages <= numb) this.setState({ isShowButton: false });
   }
 
-  // toggleModal = () => {
-  //   this.setState(({ showModal }) => ({
-  //     showModal: !showModal,
-  //   }));
-  // };
-
   render() {
     const { error, isLoading, photos, searchQuery, isShowButton, showModal } =
       this.state;
@@ -91,9 +83,6 @@ class App extends Component {
         {photos && photos.length > 0 && !isLoading && isShowButton && (
           <Button loadmore={this.loadMore} showButton={this.state.isLoading} />
         )}
-        {/* {showModal && photos && (
-          <Modal onClose={this.toggleModal} photos={photos} />
-        )} */}
       </>
     );
   }

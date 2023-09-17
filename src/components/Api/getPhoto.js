@@ -1,4 +1,5 @@
 import axios from 'axios';
+import './Api.module.css';
 
 export class PixabayAPI {
   #BASE_URL = 'https://pixabay.com/api/';
