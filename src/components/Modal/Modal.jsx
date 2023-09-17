@@ -25,15 +25,10 @@ class Modal extends Component {
   };
 
   render() {
-    console.log('first', this.props.photos[0].largeImageURL);
     return createPortal(
       <div className="Modal__backdrop" onClick={this.handleBackdropClick}>
         <div className="Modal__content">
-          <img
-            src={this.props.photos[0].largeImageURL}
-            alt={this.props.photos[0].tags}
-          />
-          {/* {this.props.children} */}
+          <img src={this.props.largeImageURL} alt={this.props.tags} />
         </div>
       </div>,
       modalRoot

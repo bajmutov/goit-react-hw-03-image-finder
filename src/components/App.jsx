@@ -67,11 +67,11 @@ class App extends Component {
     if (this.state.totalPages <= numb) this.setState({ isShowButton: false });
   }
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
+  // toggleModal = () => {
+  //   this.setState(({ showModal }) => ({
+  //     showModal: !showModal,
+  //   }));
+  // };
 
   render() {
     const { error, isLoading, photos, searchQuery, isShowButton, showModal } =
@@ -85,18 +85,15 @@ class App extends Component {
           (!photos.length ? (
             <h1>Images '{searchQuery}' not found</h1>
           ) : (
-            <ImageGallery photos={photos} />
+            <ImageGallery photos={photos} onClose={this.toggleModal} />
           ))}
         {isLoading && <Loader />}
         {photos && photos.length > 0 && !isLoading && isShowButton && (
           <Button loadmore={this.loadMore} showButton={this.state.isLoading} />
         )}
-        {showModal && photos && (
+        {/* {showModal && photos && (
           <Modal onClose={this.toggleModal} photos={photos} />
-        )}
-        <button type="button" className="IconButton" onClick={this.toggleModal}>
-          модал
-        </button>
+        )} */}
       </>
     );
   }
