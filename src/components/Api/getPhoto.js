@@ -41,13 +41,6 @@ export class PixabayAPI {
     this.page = 1;
   }
 
-  // get page() {
-  //   return this.page;
-  // }
-
-  // set page(num) {
-  //   this.page = num;
-  // }
 
   get query() {
     return this.searchQuery;
