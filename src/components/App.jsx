@@ -100,7 +100,8 @@ class App extends Component {
         )}
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <ImageGallery photos={photos} />
+            {/* <ImageGallery photos={photos} /> */}
+            <h1>Modalka</h1>
           </Modal>
         )}
         <button type="button" className="IconButton" onClick={this.toggleModal}>

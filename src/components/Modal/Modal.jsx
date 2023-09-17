@@ -39,6 +39,7 @@ export default class Modal extends Component {
       <div className="Modal__backdrop" onClick={this.handleBackdropClick}>
         <div className="Modal__content">
           <img src={this.props.webformatURL} alt={this.props.tags} />
+          {this.props.children}
         </div>
       </div>,
       modalRoot
