@@ -66,8 +66,7 @@ class App extends Component {
   }
 
   render() {
-    const { error, isLoading, photos, searchQuery, isShowButton, showModal } =
-      this.state;
+    const { error, isLoading, photos, searchQuery, isShowButton } = this.state;
     return (
       <>
         {error && <h1>{error}</h1>}
